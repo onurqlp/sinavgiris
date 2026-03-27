@@ -10,8 +10,7 @@
 <style>
 body {
     font-family: Arial, sans-serif;
-    background: #f5f7fb;
-    text-align: center;
+    background: #e5e5e5;
     padding: 20px;
 }
 
@@ -20,7 +19,7 @@ body {
     margin: auto;
     background: white;
     padding: 20px;
-    border-radius: 12px;
+    border-radius: 10px;
 }
 
 input, select {
@@ -36,36 +35,43 @@ button {
     background: #234078;
     color: white;
     border: none;
-    cursor: pointer;
 }
 
-/* PDF */
+/* A4 */
 #pdfContent {
     display: none;
-    width: 700px;
-    padding: 40px;
+    width: 210mm;
+    min-height: 297mm;
     background: white;
-    text-align: left;
-    position: relative;
+    margin: auto;
+    padding: 25mm;
+    box-sizing: border-box;
+}
+
+/* HEADER */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-title {
+    font-weight: bold;
+    font-size: 18px;
 }
 
 /* LOGO */
-.logo {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 20px;
-}
-
 .logo img {
     height: 50px;
 }
 
 h3 {
-    margin-top: 20px;
+    margin-top: 22px;
 }
 
 p {
-    line-height: 1.6;
+    font-size: 14px;
+    line-height: 1.7;
 }
 </style>
 </head>
@@ -92,18 +98,20 @@ p {
 
 <div id="pdfContent">
 
-    <div class="logo">
-        <img src="logo.png">
+    <div class="header">
+        <div class="header-title">SINAVA GİRİŞ BELGESİ</div>
+        <div class="logo">
+            <img src="logo.png">
+        </div>
     </div>
+
+    <br>
 
     <p>Sayın <span id="pdfAd"></span>,</p>
 
     <p>
     Lingo Smart Yabancı Dil Kursları Sınav Merkezi’ni tercih ettiğiniz için teşekkür ederiz.
-    </p>
-
-    <p>
-    TELC sınav kaydınız başarıyla tamamlanmıştır. Aşağıda sınavınıza ilişkin detayları bulabilirsiniz.
+    TELC sınav kaydınız başarıyla tamamlanmıştır. Aşağıda sınavınıza ilişkin detayları ve önemli bilgileri bulabilirsiniz.
     </p>
 
     <h3>KAYIT BİLGİLERİNİZ</h3>
@@ -116,13 +124,38 @@ p {
     <h3>SINAV GÜNÜ ÖNEMLİ HATIRLATMALAR</h3>
 
     <p>
-    Sınavdan en az 30 dk önce merkezimizde olunuz. Kimlik getirmeyi unutmayınız.
-    Elektronik cihazlar yasaktır.
+    Sınav günü belirtilen saatten en az 30 dakika önce sınav merkezinde hazır bulunmanız gerekmektedir.
+    Yanınızda geçerli ve fotoğraflı bir kimlik belgesi (T.C. Kimlik Kartı, pasaport vb.) bulundurmanız zorunludur.
+    Kimlik bilgileriniz ile sınav kaydınızın birebir uyuşması gerekmektedir.
+    Sınav salonuna cep telefonu, akıllı saat, kulaklık ve benzeri tüm elektronik cihazların alınması kesinlikle yasaktır.
     </p>
 
-    <h3>DİĞER BİLGİLER</h3>
+    <h3>SINAV KURALLARI</h3>
 
-    <p>Sınav günü duyurular SMS ve e-posta ile iletilecektir.</p>
+    <p>
+    Dijital TELC sınavı belirtilen saatte başlayacaktır. Sınav süresi seviyeye göre değişmektedir 
+    (A seviyeleri yaklaşık 1,5 saat, B seviyeleri yaklaşık 3 saat, C seviyeleri yaklaşık 4 saat).
+    Sınav sırasında bölümler arasında kısa molalar verilebilmektedir.
+    Sözlü sınavın başlama saati ve sınav partnerlerine ilişkin bilgiler yazılı sınavın ardından duyurulacaktır.
+    </p>
+
+    <p>
+    Sınav esnasında her türlü yardımcı materyalin kullanımı yasaktır. Sınav başlamadan önce kimlik kontrolü yapılacak 
+    ve adayların fotoğrafları alınacaktır. Sınav salonuna yalnızca kimlik belgesi ve su ile giriş yapılabilir.
+    Sınav başlamadan önce teslim edilen cep telefonları sözlü sınav tamamlanana kadar muhafaza altında tutulacaktır.
+    </p>
+
+    <h3>SONUÇ BİLGİLENDİRME</h3>
+
+    <p>
+    Lingo Smart Yabancı Dil Kursları, telc Yetkili Sınav Merkezi olarak yalnızca sınavın uygulanmasından sorumludur.
+    Değerlendirme süreci tamamen telc tarafından yürütülmekte olup bu sürece müdahale edilmesi mümkün değildir.
+    </p>
+
+    <p>
+    Sınav sonuçları genellikle 15 iş günü içerisinde açıklanmakta olup sonuç belgeleri tarafımıza ulaştığında 
+    adaylara e-posta yoluyla bilgilendirme yapılmaktadır.
+    </p>
 
     <p>Başarılar dileriz.</p>
 
@@ -130,10 +163,10 @@ p {
 
     <p>Lingo Smart Yabancı Dil Kursları</p>
 
-    <div style="margin-top:20px;">
-        <img src="telc.png" style="height:40px;">
-        <p>YETKİLİ SINAV MERKEZİ</p>
-    </div>
+    <br>
+
+    <img src="telc.png" style="height:40px;">
+    <p>YETKİLİ SINAV MERKEZİ</p>
 
 </div>
 
@@ -160,7 +193,7 @@ function olustur() {
     element.style.display = "block";
 
     html2pdf().set({
-        margin: 10,
+        margin: 0,
         filename: 'sinav-belgesi.pdf',
         html2canvas: { scale: 2 },
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }

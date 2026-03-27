@@ -12,7 +12,6 @@ body {
     font-family: Arial, sans-serif;
     background: #e5e5e5;
     padding: 20px;
-    margin: 0;
 }
 
 .container {
@@ -27,7 +26,6 @@ input, select {
     width: 100%;
     padding: 10px;
     margin-top: 10px;
-    box-sizing: border-box;
 }
 
 button {
@@ -37,16 +35,16 @@ button {
     background: #234078;
     color: white;
     border: none;
-    cursor: pointer;
 }
 
-/* PDF alanı */
+/* A4 */
 #pdfContent {
     display: none;
     width: 210mm;
+    height: auto;
     background: white;
     margin: auto;
-    padding: 18mm 18mm 12mm 18mm; /* alttaki boşluk azaltıldı */
+    padding: 25mm 25mm 14mm 25mm; /* sadece alt boşluk azaltıldı */
     box-sizing: border-box;
 }
 
@@ -55,7 +53,6 @@ button {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 14px;
 }
 
 .header-title {
@@ -65,28 +62,18 @@ button {
 
 /* LOGO */
 .logo img {
-    height: 42px;
+    height: 50px;
 }
 
 h3 {
-    margin: 16px 0 8px 0;
-    font-size: 16px;
-    line-height: 1.2;
+    margin-top: 20px;
+    margin-bottom: 10px;
 }
 
 p {
-    font-size: 13px;
-    line-height: 1.45;
-    margin: 0 0 8px 0;
-}
-
-.footer-space {
-    height: 10px;
-}
-
-.footer-note {
-    margin-top: 6px;
-    font-size: 12px;
+    font-size: 14px;
+    line-height: 1.6;
+    margin: 0 0 10px 0;
 }
 </style>
 </head>
@@ -116,15 +103,17 @@ p {
     <div class="header">
         <div class="header-title">SINAVA GİRİŞ BELGESİ</div>
         <div class="logo">
-            <img src="logo.png" alt="Logo">
+            <img src="logo.png">
         </div>
     </div>
+
+    <br>
 
     <p>Sayın <span id="pdfAd"></span>,</p>
 
     <p>
-        Lingo Smart Yabancı Dil Kursları Sınav Merkezi’ni tercih ettiğiniz için teşekkür ederiz.
-        TELC sınav kaydınız başarıyla tamamlanmıştır. Aşağıda sınavınıza ilişkin detayları ve önemli bilgileri bulabilirsiniz.
+    Lingo Smart Yabancı Dil Kursları Sınav Merkezi’ni tercih ettiğiniz için teşekkür ederiz.
+    TELC sınav kaydınız başarıyla tamamlanmıştır. Aşağıda sınavınıza ilişkin detayları ve önemli bilgileri bulabilirsiniz.
     </p>
 
     <h3>KAYIT BİLGİLERİNİZ</h3>
@@ -137,43 +126,44 @@ p {
     <h3>SINAV GÜNÜ ÖNEMLİ HATIRLATMALAR</h3>
 
     <p>
-        Sınav günü belirtilen saatten en az 30 dakika önce merkezde hazır bulunmanız gerekmektedir.
-        Yanınızda geçerli fotoğraflı kimlik bulundurmanız zorunludur.
+    Sınav günü belirtilen saatten en az 30 dakika önce merkezde hazır bulunmanız gerekmektedir.
+    Yanınızda geçerli fotoğraflı kimlik bulundurmanız zorunludur.
     </p>
 
     <p>
-        Dijital TELC sınavı belirtilen saatte başlar ve seviyeye göre yaklaşık
-        (A: 1,5 saat, B: 3 saat, C: 4 saat) sürer.
-        Sözlü sınav bilgileri yazılı sınav sonrası duyurulur.
+    Dijital TELC sınavı belirtilen saatte başlar ve seviyeye göre yaklaşık
+    (A: 1,5 saat, B: 3 saat, C: 4 saat) sürer.
+    Sözlü sınav bilgileri yazılı sınav sonrası duyurulur.
     </p>
 
     <p>
-        Sınav salonuna yalnızca kimlik ve su ile girilebilir.
-        Teslim edilen elektronik cihazlar sınav süresince muhafaza edilir.
+    Sınav salonuna yalnızca kimlik ve su ile girilebilir.
+    Teslim edilen elektronik cihazlar sınav süresince muhafaza edilir.
     </p>
 
     <h3>SONUÇ BİLGİLENDİRME</h3>
 
     <p>
-        Sınavlar telc Almanya merkezinde değerlendirilir.
-        Sonuçlar genellikle 15 iş günü içinde açıklanır ve e-posta ile bildirilir.
+    Sınavlar telc Almanya merkezinde değerlendirilir.
+    Sonuçlar genellikle 15 iş günü içinde açıklanır ve e-posta ile bildirilir.
     </p>
 
     <p>Başarılar dileriz.</p>
 
-    <div class="footer-space"></div>
+    <br>
 
     <p>Lingo Smart Yabancı Dil Kursları</p>
 
-    <img src="telc.png" style="height:34px;" alt="telc">
-    <p class="footer-note"><b>YETKİLİ SINAV MERKEZİ</b></p>
+    <img src="telc.png" style="height:40px;">
+    <p>YETKİLİ SINAV MERKEZİ</p>
 
 </div>
 
 <script>
 function formatTarih(tarih) {
-    let t = new Date(tarih);
-    return t.toLocaleDateString("tr-TR");
+    if (!tarih) return "";
+    let parts = tarih.split("-");
+    return `${parts[2]}.${parts[1]}.${parts[0]}`;
 }
 
 function olustur() {
@@ -194,8 +184,7 @@ function olustur() {
     html2pdf().set({
         margin: 0,
         filename: 'sinav-belgesi.pdf',
-        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] },
-        html2canvas: { scale: 2, useCORS: true },
+        html2canvas: { scale: 2 },
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
     }).from(element).save();
 

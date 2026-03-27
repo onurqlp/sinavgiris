@@ -3,16 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Sınav Giriş Belgesi</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
 body {
-    font-family: "Times New Roman", serif;
-    background: #f0f0f0;
+    background: #e5e5e5;
+    margin: 0;
     padding: 20px;
+    font-family: "Times New Roman", serif;
 }
 
 /* FORM */
@@ -40,41 +40,50 @@ button {
     cursor: pointer;
 }
 
-/* PDF TASARIM */
+/* A4 BELGE */
 #pdf {
-    width: 800px;
+    width: 794px;
+    min-height: 1123px;
     background: white;
-    padding: 50px;
-    margin: auto;
-    display: none;
+    margin: 40px auto;
+    padding: 70px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.2);
+    position: relative;
 }
 
+/* LOGO */
 .logo {
-    text-align: right;
+    position: absolute;
+    top: 40px;
+    right: 60px;
 }
 
 .logo img {
-    height: 60px;
+    height: 55px;
 }
 
-.telc {
-    margin-top: 40px;
-}
-
-.telc img {
-    height: 50px;
-}
-
+/* TEXT */
 h2 {
-    margin-top: 30px;
+    margin-top: 35px;
+    font-size: 20px;
 }
 
 p {
-    line-height: 1.6;
+    font-size: 15px;
+    line-height: 1.8;
 }
 
 .bold {
     font-weight: bold;
+}
+
+/* TELC */
+.telc {
+    margin-top: 50px;
+}
+
+.telc img {
+    height: 45px;
 }
 </style>
 </head>
@@ -93,6 +102,7 @@ p {
         <option>A2</option>
         <option>B1</option>
         <option>B2</option>
+        <option>C1</option>
     </select>
 
     <button onclick="olustur()">PDF Oluştur</button>
@@ -124,8 +134,8 @@ p {
     <h2>SINAV GÜNÜ ÖNEMLİ HATIRLATMALAR</h2>
 
     <p>
-    Sınavdan en az 30 dk önce merkezimizde olunuz. Kimlik getirmeyi unutmayınız.
-    Elektronik cihazlar yasaktır.
+    Sınavdan en az 30 dk önce merkezimizde olunuz. Yanınızda geçerli kimlik bulundurunuz.
+    Elektronik cihazlar (telefon, saat, kulaklık vb.) yasaktır.
     </p>
 
     <h2>DİĞER BİLGİLER</h2>
@@ -149,6 +159,11 @@ p {
 </div>
 
 <script>
+function formatTarih(tarih) {
+    let t = new Date(tarih);
+    return t.toLocaleDateString("tr-TR");
+}
+
 function olustur() {
 
     let ad = document.getElementById("ad").value;
@@ -158,14 +173,19 @@ function olustur() {
 
     document.getElementById("pdfAd").innerText = ad;
     document.getElementById("yAd").innerText = ad;
-    document.getElementById("yTarih").innerText = tarih;
-    document.getElementById("ySaat").innerText = saat;
     document.getElementById("ySeviye").innerText = seviye;
+    document.getElementById("yTarih").innerText = formatTarih(tarih);
+    document.getElementById("ySaat").innerText = saat;
 
     let element = document.getElementById("pdf");
     element.style.display = "block";
 
-    html2pdf().from(element).save("sinav-belgesi.pdf");
+    html2pdf().set({
+        margin: 0,
+        filename: 'sinav-belgesi.pdf',
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'px', format: 'a4', orientation: 'portrait' }
+    }).from(element).save();
 
     setTimeout(() => {
         element.style.display = "none";

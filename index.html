@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Sınav Giriş Belgesi</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<style>
+body {
+    font-family: "Times New Roman", serif;
+    background: #f0f0f0;
+    padding: 20px;
+}
+
+/* FORM */
+.form {
+    max-width: 400px;
+    margin: auto;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+input, select {
+    width: 100%;
+    margin-top: 10px;
+    padding: 10px;
+}
+
+button {
+    margin-top: 15px;
+    width: 100%;
+    padding: 12px;
+    background: #234078;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+/* PDF TASARIM */
+#pdf {
+    width: 800px;
+    background: white;
+    padding: 50px;
+    margin: auto;
+    display: none;
+}
+
+.logo {
+    text-align: right;
+}
+
+.logo img {
+    height: 60px;
+}
+
+.telc {
+    margin-top: 40px;
+}
+
+.telc img {
+    height: 50px;
+}
+
+h2 {
+    margin-top: 30px;
+}
+
+p {
+    line-height: 1.6;
+}
+
+.bold {
+    font-weight: bold;
+}
+</style>
+</head>
+
+<body>
+
+<div class="form">
+    <h3>Bilgileri Gir</h3>
+
+    <input type="text" id="ad" placeholder="Ad Soyad">
+    <input type="date" id="tarih">
+    <input type="time" id="saat">
+
+    <select id="seviye">
+        <option>A1</option>
+        <option>A2</option>
+        <option>B1</option>
+        <option>B2</option>
+    </select>
+
+    <button onclick="olustur()">PDF Oluştur</button>
+</div>
+
+<div id="pdf">
+
+    <div class="logo">
+        <img src="logo.png">
+    </div>
+
+    <p>Sayın <span id="pdfAd"></span>,</p>
+
+    <p>
+    Lingo Smart Yabancı Dil Kursları Sınav Merkezi’ni tercih ettiğiniz için teşekkür ederiz.
+    </p>
+
+    <p>
+    TELC sınav kaydınız başarıyla tamamlanmıştır. Aşağıda sınavınıza ilişkin detayları bulabilirsiniz.
+    </p>
+
+    <h2>KAYIT BİLGİLERİNİZ</h2>
+
+    <p><span class="bold">Aday Adı:</span> <span id="yAd"></span></p>
+    <p><span class="bold">Sınav Türü:</span> [TELC] <span id="ySeviye"></span></p>
+    <p><span class="bold">Sınav Tarihi ve Saati:</span> <span id="yTarih"></span> - <span id="ySaat"></span></p>
+    <p><span class="bold">Sınav Merkezi:</span> Lingo Smart Yabancı Dil Kursları</p>
+
+    <h2>SINAV GÜNÜ ÖNEMLİ HATIRLATMALAR</h2>
+
+    <p>
+    Sınavdan en az 30 dk önce merkezimizde olunuz. Kimlik getirmeyi unutmayınız.
+    Elektronik cihazlar yasaktır.
+    </p>
+
+    <h2>DİĞER BİLGİLER</h2>
+
+    <p>
+    Sınav günü duyurular SMS ve e-posta ile iletilecektir.
+    </p>
+
+    <p>Başarılar dileriz.</p>
+
+    <br><br>
+
+    <p>Lingo Smart Yabancı Dil Kursları</p>
+    <p>Uluslararası Sınav Merkezi</p>
+
+    <div class="telc">
+        <img src="telc.png">
+        <p>YETKİLİ SINAV MERKEZİ</p>
+    </div>
+
+</div>
+
+<script>
+function olustur() {
+
+    let ad = document.getElementById("ad").value;
+    let tarih = document.getElementById("tarih").value;
+    let saat = document.getElementById("saat").value;
+    let seviye = document.getElementById("seviye").value;
+
+    document.getElementById("pdfAd").innerText = ad;
+    document.getElementById("yAd").innerText = ad;
+    document.getElementById("yTarih").innerText = tarih;
+    document.getElementById("ySaat").innerText = saat;
+    document.getElementById("ySeviye").innerText = seviye;
+
+    let element = document.getElementById("pdf");
+    element.style.display = "block";
+
+    html2pdf().from(element).save("sinav-belgesi.pdf");
+
+    setTimeout(() => {
+        element.style.display = "none";
+    }, 1000);
+}
+</script>
+
+</body>
+</html>

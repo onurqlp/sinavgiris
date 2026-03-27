@@ -12,6 +12,7 @@ body {
     font-family: Arial, sans-serif;
     background: #e5e5e5;
     padding: 20px;
+    margin: 0;
 }
 
 .container {
@@ -26,6 +27,7 @@ input, select {
     width: 100%;
     padding: 10px;
     margin-top: 10px;
+    box-sizing: border-box;
 }
 
 button {
@@ -35,16 +37,16 @@ button {
     background: #234078;
     color: white;
     border: none;
+    cursor: pointer;
 }
 
-/* A4 */
+/* PDF alanı */
 #pdfContent {
     display: none;
     width: 210mm;
-    height: auto;
     background: white;
     margin: auto;
-    padding: 25mm;
+    padding: 18mm 18mm 12mm 18mm; /* alttaki boşluk azaltıldı */
     box-sizing: border-box;
 }
 
@@ -53,6 +55,7 @@ button {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 14px;
 }
 
 .header-title {
@@ -62,16 +65,28 @@ button {
 
 /* LOGO */
 .logo img {
-    height: 50px;
+    height: 42px;
 }
 
 h3 {
-    margin-top: 22px;
+    margin: 16px 0 8px 0;
+    font-size: 16px;
+    line-height: 1.2;
 }
 
 p {
-    font-size: 14px;
-    line-height: 1.7;
+    font-size: 13px;
+    line-height: 1.45;
+    margin: 0 0 8px 0;
+}
+
+.footer-space {
+    height: 10px;
+}
+
+.footer-note {
+    margin-top: 6px;
+    font-size: 12px;
 }
 </style>
 </head>
@@ -101,17 +116,15 @@ p {
     <div class="header">
         <div class="header-title">SINAVA GİRİŞ BELGESİ</div>
         <div class="logo">
-            <img src="logo.png">
+            <img src="logo.png" alt="Logo">
         </div>
     </div>
-
-    <br>
 
     <p>Sayın <span id="pdfAd"></span>,</p>
 
     <p>
-    Lingo Smart Yabancı Dil Kursları Sınav Merkezi’ni tercih ettiğiniz için teşekkür ederiz.
-    TELC sınav kaydınız başarıyla tamamlanmıştır. Aşağıda sınavınıza ilişkin detayları ve önemli bilgileri bulabilirsiniz.
+        Lingo Smart Yabancı Dil Kursları Sınav Merkezi’ni tercih ettiğiniz için teşekkür ederiz.
+        TELC sınav kaydınız başarıyla tamamlanmıştır. Aşağıda sınavınıza ilişkin detayları ve önemli bilgileri bulabilirsiniz.
     </p>
 
     <h3>KAYIT BİLGİLERİNİZ</h3>
@@ -124,38 +137,36 @@ p {
     <h3>SINAV GÜNÜ ÖNEMLİ HATIRLATMALAR</h3>
 
     <p>
-    Sınav günü belirtilen saatten en az 30 dakika önce merkezde hazır bulunmanız gerekmektedir.
-    Yanınızda geçerli fotoğraflı kimlik bulundurmanız zorunludur.
+        Sınav günü belirtilen saatten en az 30 dakika önce merkezde hazır bulunmanız gerekmektedir.
+        Yanınızda geçerli fotoğraflı kimlik bulundurmanız zorunludur.
     </p>
 
     <p>
-    Dijital TELC sınavı belirtilen saatte başlar ve seviyeye göre yaklaşık 
-    (A: 1,5 saat, B: 3 saat, C: 4 saat) sürer.
-    Sözlü sınav bilgileri yazılı sınav sonrası duyurulur.
+        Dijital TELC sınavı belirtilen saatte başlar ve seviyeye göre yaklaşık
+        (A: 1,5 saat, B: 3 saat, C: 4 saat) sürer.
+        Sözlü sınav bilgileri yazılı sınav sonrası duyurulur.
     </p>
 
     <p>
-    Sınav salonuna yalnızca kimlik ve su ile girilebilir.
-    Teslim edilen elektronik cihazlar sınav süresince muhafaza edilir.
+        Sınav salonuna yalnızca kimlik ve su ile girilebilir.
+        Teslim edilen elektronik cihazlar sınav süresince muhafaza edilir.
     </p>
 
     <h3>SONUÇ BİLGİLENDİRME</h3>
 
     <p>
-    Sınavlar telc Almanya merkezinde değerlendirilir.
-    Sonuçlar genellikle 15 iş günü içinde açıklanır ve e-posta ile bildirilir.
+        Sınavlar telc Almanya merkezinde değerlendirilir.
+        Sonuçlar genellikle 15 iş günü içinde açıklanır ve e-posta ile bildirilir.
     </p>
 
     <p>Başarılar dileriz.</p>
 
-    <br><br>
+    <div class="footer-space"></div>
 
     <p>Lingo Smart Yabancı Dil Kursları</p>
 
-    <br>
-
-    <img src="telc.png" style="height:40px;">
-    <p>YETKİLİ SINAV MERKEZİ</p>
+    <img src="telc.png" style="height:34px;" alt="telc">
+    <p class="footer-note"><b>YETKİLİ SINAV MERKEZİ</b></p>
 
 </div>
 
@@ -166,7 +177,6 @@ function formatTarih(tarih) {
 }
 
 function olustur() {
-
     let ad = document.getElementById("ad").value;
     let tarih = document.getElementById("tarih").value;
     let saat = document.getElementById("saat").value;
@@ -184,7 +194,8 @@ function olustur() {
     html2pdf().set({
         margin: 0,
         filename: 'sinav-belgesi.pdf',
-        html2canvas: { scale: 2 },
+        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] },
+        html2canvas: { scale: 2, useCORS: true },
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
     }).from(element).save();
 
